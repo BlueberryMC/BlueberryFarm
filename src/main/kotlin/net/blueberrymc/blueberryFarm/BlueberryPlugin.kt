@@ -6,6 +6,7 @@ import org.gradle.api.Project
 import org.gradle.api.artifacts.Dependency
 import org.gradle.api.artifacts.ModuleDependency
 import org.gradle.api.artifacts.dsl.DependencyHandler
+import org.gradle.api.tasks.JavaExec
 import java.io.File
 
 class BlueberryPlugin : Plugin<Project> {
@@ -26,6 +27,7 @@ class BlueberryPlugin : Plugin<Project> {
         project.task("unzipInstallerJar", UnzipInstallerJarTask())
         project.task("downloadVanillaJar", DownloadVanillaJarTask())
         project.task("patchVanillaJar", PatchVanillaJarTask())
+        project.tasks.register("runClient", JavaExec::class.java, RunClientTask())
     }
 }
 

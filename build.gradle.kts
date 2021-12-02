@@ -5,14 +5,26 @@ plugins {
 }
 
 group = "net.blueberrymc.blueberryFarm"
-version = "1.0.0-SNAPSHOT"
+version = "1.0.1-SNAPSHOT"
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(8))
+    }
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    implementation(kotlin("stdlib"))
+    implementation(kotlin("stdlib", "1.6.0"))
     implementation("com.google.code.gson:gson:2.8.9")
     implementation("io.sigpipe:jbsdiff:1.0")
 }
