@@ -7,27 +7,51 @@ import net.blueberrymc.blueberryFarm.getBlueberryConfig
 import org.gradle.api.Action
 import org.gradle.api.Task
 import java.io.File
+import java.io.IOException
 import java.net.URL
 import java.nio.channels.Channels
+import java.util.regex.Pattern
 
 class DownloadInstallerJarTask : Action<Task> {
     override fun execute(task: Task) {
         task.doLast {
             val config = task.project.getBlueberryConfig()
             val file = File("temp", "blueberry-installer-${config.minecraftVersion.get()}-${config.apiVersion.get()}.jar")
-            val json = URL("https://api.github.com/repos/BlueberryMC/Blueberry/releases").readText()
-            val array = Gson().fromJson(json, JsonArray::class.java)
-            val size = array.filterIsInstance<JsonObject>()
-                .first { it["tag_name"].asString == "${config.minecraftVersion.get()}-${config.apiVersion.get()}" }["assets"]
-                .asJsonArray[0]
-                .asJsonObject["size"]
-                .asInt
+            val exactMatch = try {
+                URL("https://api.github.com/repos/BlueberryMC/Blueberry/releases/tags/${config.minecraftVersion.get()}-${config.apiVersion.get()}${config.buildNumber.orNull.let { if (it == null) "" else "-$it" }}").readText()
+            } catch (e: IOException) {
+                null
+            }
+            val obj = exactMatch?.let { Gson().fromJson(it, JsonObject::class.java) }
+            val asset = if (obj?.has("assets") == true) {
+                obj.get("assets").asJsonArray[0]
+            } else {
+                val json = URL("https://api.github.com/repos/BlueberryMC/Blueberry/releases").readText()
+                val array = Gson().fromJson(json, JsonArray::class.java)
+                val checkTagName = { name: String ->
+                    val bn = config.buildNumber.orNull
+                    if (bn == null) {
+                        name.matches("${Pattern.quote(config.minecraftVersion.get())}-${Pattern.quote(config.apiVersion.get())}(-.*)?".toRegex())
+                    } else {
+                        name == "${config.minecraftVersion.get()}-${config.apiVersion.get()}-$bn"
+                    }
+                }
+                val throwUnmatchedError = {
+                    val bn = config.buildNumber.orNull
+                    if (bn == null) {
+                        error("No matching release: ${config.minecraftVersion.get()}-${config.apiVersion.get()}")
+                    } else {
+                        error("No matching release: ${config.minecraftVersion.get()}-${config.apiVersion.get()}-$bn")
+                    }
+                }
+                (array.filterIsInstance<JsonObject>()
+                    .firstOrNull { checkTagName(it["tag_name"].asString) } ?: throwUnmatchedError())
+                    .get("assets")
+                    .asJsonArray[0]
+            }
+            val size = asset.asJsonObject["size"].asInt
             if (file.exists() && size == file.readBytes().size) return@doLast
-            val downloadUrl = array.filterIsInstance<JsonObject>()
-                .first { it["tag_name"].asString == "${config.minecraftVersion.get()}-${config.apiVersion.get()}" }["assets"]
-                .asJsonArray[0]
-                .asJsonObject["browser_download_url"]
-                .asString
+            val downloadUrl = asset.asJsonObject["browser_download_url"].asString
             file.apply {
                     if (exists()) delete()
                     createNewFile()

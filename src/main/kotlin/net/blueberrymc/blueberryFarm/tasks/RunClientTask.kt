@@ -1,6 +1,7 @@
 package net.blueberrymc.blueberryFarm.tasks
 
 import org.gradle.api.Action
+import org.gradle.api.file.FileCollection
 import org.gradle.api.tasks.JavaExec
 import java.io.File
 import java.util.UUID
@@ -15,12 +16,13 @@ class RunClientTask : Action<JavaExec> {
     var additionalSourceDirs = mutableListOf<File>()
     var additionalIncludeDirs = mutableListOf<File>()
     var jvmArgs = mutableListOf<String>()
+    var classpath: FileCollection? = null
 
     override fun execute(task: JavaExec) {
         task.dependsOn("patchVanillaJar")
         task.dependsOn("build")
-        task.classpath =
-            ((task.project as org.gradle.api.plugins.ExtensionAware).extensions.getByName("sourceSets") as org.gradle.api.tasks.SourceSetContainer).getByName(
+        task.classpath = classpath
+            ?: ((task.project as org.gradle.api.plugins.ExtensionAware).extensions.getByName("sourceSets") as org.gradle.api.tasks.SourceSetContainer).getByName(
                 "main"
             ).compileClasspath
         task.mainClass.set(mainClass)
