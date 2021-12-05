@@ -1,4 +1,4 @@
-package net.blueberrymc.blueberryFarm.tasks
+package net.blueberrymc.blueberryFarm.actions
 
 import net.blueberrymc.blueberryFarm.getBlueberryConfig
 import net.blueberrymc.blueberryFarm.util.Util

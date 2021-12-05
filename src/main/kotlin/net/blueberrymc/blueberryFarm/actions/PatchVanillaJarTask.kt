@@ -1,4 +1,4 @@
-package net.blueberrymc.blueberryFarm.tasks
+package net.blueberrymc.blueberryFarm.actions
 
 import io.sigpipe.jbsdiff.Patch
 import net.blueberrymc.blueberryFarm.getBlueberryConfig

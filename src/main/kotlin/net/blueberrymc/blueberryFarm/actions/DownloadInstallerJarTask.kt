@@ -1,4 +1,4 @@
-package net.blueberrymc.blueberryFarm.tasks
+package net.blueberrymc.blueberryFarm.actions
 
 import com.google.gson.Gson
 import com.google.gson.JsonArray
@@ -17,6 +17,10 @@ class DownloadInstallerJarTask : Action<Task> {
         task.doLast {
             val config = task.project.getBlueberryConfig()
             val file = File("temp", "blueberry-installer-${config.minecraftVersion.get()}-${config.apiVersion.get()}.jar")
+            if (file.exists()) {
+                println("Reusing existing installer ${file.absolutePath}")
+                return@doLast
+            }
             val exactMatch = try {
                 URL("https://api.github.com/repos/BlueberryMC/Blueberry/releases/tags/${config.minecraftVersion.get()}-${config.apiVersion.get()}${config.buildNumber.orNull.let { if (it == null) "" else "-$it" }}").readText()
             } catch (e: IOException) {
@@ -50,7 +54,6 @@ class DownloadInstallerJarTask : Action<Task> {
                     .asJsonArray[0]
             }
             val size = asset.asJsonObject["size"].asInt
-            if (file.exists() && size == file.readBytes().size) return@doLast
             val downloadUrl = asset.asJsonObject["browser_download_url"].asString
             file.apply {
                     if (exists()) delete()
