@@ -28,4 +28,6 @@ object Util {
         require(i >= 0) { "Invalid hex char: $c" }
         return i
     }
+
+    fun String.stripSnapshot() = this.replace("-SNAPSHOT", "")
 }

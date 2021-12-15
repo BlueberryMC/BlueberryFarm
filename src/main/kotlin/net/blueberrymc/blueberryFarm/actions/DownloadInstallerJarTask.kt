@@ -4,6 +4,7 @@ import com.google.gson.Gson
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import net.blueberrymc.blueberryFarm.getBlueberryConfig
+import net.blueberrymc.blueberryFarm.util.Util.stripSnapshot
 import org.gradle.api.Action
 import org.gradle.api.Task
 import java.io.File
@@ -22,7 +23,7 @@ class DownloadInstallerJarTask : Action<Task> {
                 return@doLast
             }
             val exactMatch = try {
-                URL("https://api.github.com/repos/BlueberryMC/Blueberry/releases/tags/${config.minecraftVersion.get()}-${config.apiVersion.get()}${config.buildNumber.orNull.let { if (it == null) "" else "-$it" }}").readText()
+                URL("https://api.github.com/repos/BlueberryMC/Blueberry/releases/tags/${config.minecraftVersion.get()}-${config.apiVersion.get().stripSnapshot()}${config.buildNumber.orNull.let { if (it == null) "" else "-$it" }}").readText()
             } catch (e: IOException) {
                 null
             }
@@ -35,17 +36,17 @@ class DownloadInstallerJarTask : Action<Task> {
                 val checkTagName = { name: String ->
                     val bn = config.buildNumber.orNull
                     if (bn == null) {
-                        name.matches("${Pattern.quote(config.minecraftVersion.get())}-${Pattern.quote(config.apiVersion.get())}(-.*)?".toRegex())
+                        name.matches("${Pattern.quote(config.minecraftVersion.get())}-${Pattern.quote(config.apiVersion.get().stripSnapshot())}(-.*)?".toRegex())
                     } else {
-                        name == "${config.minecraftVersion.get()}-${config.apiVersion.get()}-$bn"
+                        name == "${config.minecraftVersion.get()}-${config.apiVersion.get().stripSnapshot()}.$bn"
                     }
                 }
                 val throwUnmatchedError = {
                     val bn = config.buildNumber.orNull
                     if (bn == null) {
-                        error("No matching release: ${config.minecraftVersion.get()}-${config.apiVersion.get()}")
+                        error("No matching release: ${config.minecraftVersion.get()}-${config.apiVersion.get().stripSnapshot()}")
                     } else {
-                        error("No matching release: ${config.minecraftVersion.get()}-${config.apiVersion.get()}-$bn")
+                        error("No matching release: ${config.minecraftVersion.get()}-${config.apiVersion.get().stripSnapshot()}.$bn")
                     }
                 }
                 (array.filterIsInstance<JsonObject>()
