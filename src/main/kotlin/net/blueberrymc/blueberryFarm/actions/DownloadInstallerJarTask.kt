@@ -36,7 +36,7 @@ class DownloadInstallerJarTask : Action<Task> {
                 val checkTagName = { name: String ->
                     val bn = config.buildNumber.orNull
                     if (bn == null) {
-                        name.matches("${Pattern.quote(config.minecraftVersion.get())}-${Pattern.quote(config.apiVersion.get().stripSnapshot())}(-.*)?".toRegex())
+                        name.matches("${Pattern.quote(config.minecraftVersion.get())}-${Pattern.quote(config.apiVersion.get().stripSnapshot())}(-\\..*)?".toRegex())
                     } else {
                         name == "${config.minecraftVersion.get()}-${config.apiVersion.get().stripSnapshot()}.$bn"
                     }
