@@ -58,7 +58,7 @@ private fun DependencyHandler.unwrap(): DependencyHandler {
 }
 
 fun DependencyHandler.blueberry(dependencies: Boolean = true, loadAPI: Boolean = true, loadBlueberryFromMaven: Boolean = false) {
-    val lwjglVersion = "3.2.2"
+    val lwjglVersion = "3.3.1"
     val project = BlueberryPlugin.dependencyHandler2ProjectMap[this.unwrap()]
         ?: throw IllegalArgumentException("BlueberryPlugin not initialized for this context")
     val config = project.getBlueberryConfig()
