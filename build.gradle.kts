@@ -1,21 +1,21 @@
 plugins {
-    kotlin("jvm") version "1.6.0"
+    kotlin("jvm") version "1.7.21"
     `java-gradle-plugin`
     `maven-publish`
 }
 
-group = "net.blueberrymc.blueberryFarm"
-version = "1.0.4-SNAPSHOT"
+group = "net.blueberrymc.blueberryfarm"
+version = "2.0.0-SNAPSHOT"
 
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(8))
+        languageVersion.set(JavaLanguageVersion.of(17))
     }
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
     }
 }
 
@@ -24,8 +24,8 @@ repositories {
 }
 
 dependencies {
-    implementation(kotlin("stdlib", "1.6.0"))
-    implementation("com.google.code.gson:gson:2.8.9")
+    implementation(kotlin("stdlib", "1.7.21"))
+    implementation("com.google.code.gson:gson:2.10")
     implementation("io.sigpipe:jbsdiff:1.0")
 }
 
@@ -46,9 +46,9 @@ publishing {
 
 gradlePlugin {
     plugins {
-        create("blueberryFarm") {
-            id = "net.blueberrymc.blueberryFarm"
-            implementationClass = "net.blueberrymc.blueberryFarm.BlueberryPlugin"
+        create("blueberryfarm") {
+            id = "net.blueberrymc.blueberryfarm"
+            implementationClass = "net.blueberrymc.blueberryfarm.BlueberryPlugin"
         }
     }
 }

@@ -1,10 +1,10 @@
-package net.blueberrymc.blueberryFarm.actions
+package net.blueberrymc.blueberryfarm.actions
 
 import com.google.gson.Gson
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
-import net.blueberrymc.blueberryFarm.getBlueberryConfig
-import net.blueberrymc.blueberryFarm.util.Util.stripSnapshot
+import net.blueberrymc.blueberryfarm.getBlueberryConfig
+import net.blueberrymc.blueberryfarm.util.Util.stripSnapshot
 import org.gradle.api.Action
 import org.gradle.api.Task
 import java.io.File

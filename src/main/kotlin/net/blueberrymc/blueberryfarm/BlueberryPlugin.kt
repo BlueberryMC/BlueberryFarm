@@ -1,13 +1,13 @@
-package net.blueberrymc.blueberryFarm
+package net.blueberrymc.blueberryfarm
 
-import net.blueberrymc.blueberryFarm.actions.DownloadInstallerJarTask
-import net.blueberrymc.blueberryFarm.actions.DownloadVanillaJarTask
-import net.blueberrymc.blueberryFarm.actions.PatchVanillaJarTask
-import net.blueberrymc.blueberryFarm.actions.RunClientTask
-import net.blueberrymc.blueberryFarm.actions.RunServerTask
-import net.blueberrymc.blueberryFarm.actions.UnzipInstallerJarTask
-import net.blueberrymc.blueberryFarm.tasks.RunClient
-import net.blueberrymc.blueberryFarm.tasks.RunServer
+import net.blueberrymc.blueberryfarm.actions.DownloadInstallerJarTask
+import net.blueberrymc.blueberryfarm.actions.DownloadVanillaJarTask
+import net.blueberrymc.blueberryfarm.actions.PatchVanillaJarTask
+import net.blueberrymc.blueberryfarm.actions.RunClientTask
+import net.blueberrymc.blueberryfarm.actions.RunServerTask
+import net.blueberrymc.blueberryfarm.actions.UnzipInstallerJarTask
+import net.blueberrymc.blueberryfarm.tasks.RunClient
+import net.blueberrymc.blueberryfarm.tasks.RunServer
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.artifacts.Dependency
@@ -40,7 +40,7 @@ class BlueberryPlugin : Plugin<Project> {
     }
 }
 
-internal fun Project.getBlueberryConfig() = (this.plugins.getPlugin("net.blueberrymc.blueberryFarm") as BlueberryPlugin).configuration
+internal fun Project.getBlueberryConfig() = (this.plugins.getPlugin("net.blueberrymc.blueberryfarm") as BlueberryPlugin).configuration
 
 fun Project.blueberry(consumer: PluginConfig.() -> Unit) {
     consumer(getBlueberryConfig())
@@ -95,7 +95,7 @@ fun DependencyHandler.blueberry(dependencies: Boolean = true, loadAPI: Boolean =
         add("compileOnly", "org.lwjgl:lwjgl-jemalloc:$lwjglVersion:natives-linux")
         add("compileOnly", "org.lwjgl:lwjgl-jemalloc:$lwjglVersion:natives-macos")
         add("compileOnly", "org.lwjgl:lwjgl-jemalloc:$lwjglVersion:natives-windows")
-        add("compileOnly", "com.github.oshi:oshi-core:5.8.2")
+        add("compileOnly", "com.github.oshi:oshi-core:6.2.2")
         add("compileOnly", "com.mojang:blocklist:1.0.6")
         add("compileOnly", "com.mojang:text2speech:1.11.3")
         add("compileOnly", "com.mojang:text2speech:1.11.3:natives-linux")
@@ -103,14 +103,15 @@ fun DependencyHandler.blueberry(dependencies: Boolean = true, loadAPI: Boolean =
         add("compileOnly", "net.java.jutils:jutils:1.0.0")
         add("compileOnly", "net.java.dev.jna:jna:5.9.0")
         add("compileOnly", "net.java.dev.jna:jna-platform:5.9.0")
-        add("compileOnly", "com.ibm.icu:icu4j:69.1")
+        add("compileOnly", "com.ibm.icu:icu4j:71.1")
         add("compileOnly", "org.apache.commons:commons-lang3:3.12.0")
         add("compileOnly", "commons-io:commons-io:2.11.0")
         add("compileOnly", "commons-logging:commons-logging:1.2")
-        add("compileOnly", "org.apache.logging.log4j:log4j-api:2.14.1")
-        add("compileOnly", "org.apache.logging.log4j:log4j-core:2.14.1")
-        add("compileOnly", "org.apache.logging.log4j:log4j-slf4j18-impl:2.14.1")
-        add("compileOnly", "org.slf4j:slf4j-api:1.8.0-beta4")
+        add("compileOnly", "org.apache.logging.log4j:log4j-api:2.19.0")
+        add("compileOnly", "org.apache.logging.log4j:log4j-core:2.19.0")
+        add("compileOnly", "org.apache.logging.log4j:log4j-slf4j2-impl:2.19.0")
+        add("compileOnly", "org.slf4j:slf4j-api:2.0.1")
+        add("compileOnly", "com.mojang:logging:1.1.1")
     }
     if (loadBlueberryFromMaven) {
         add("compileOnly", "net.blueberrymc:blueberry:${config.minecraftVersion.get()}-${config.apiVersion.get()}")?.apply {

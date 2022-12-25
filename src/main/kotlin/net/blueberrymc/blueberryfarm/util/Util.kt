@@ -1,4 +1,4 @@
-package net.blueberrymc.blueberryFarm.util
+package net.blueberrymc.blueberryfarm.util
 
 object Util {
     fun bytesToHex(bytes: ByteArray): String {

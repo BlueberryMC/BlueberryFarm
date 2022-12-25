@@ -1,6 +1,6 @@
-package net.blueberrymc.blueberryFarm.tasks
+package net.blueberrymc.blueberryfarm.tasks
 
-import net.blueberrymc.blueberryFarm.getBlueberryConfig
+import net.blueberrymc.blueberryfarm.getBlueberryConfig
 import org.gradle.api.model.ObjectFactory
 import org.gradle.api.provider.ListProperty
 import org.gradle.api.provider.Property

@@ -1,4 +1,4 @@
-package net.blueberrymc.blueberryFarm.tasks
+package net.blueberrymc.blueberryfarm.tasks
 
 import org.gradle.api.model.ObjectFactory
 import org.gradle.api.provider.ListProperty

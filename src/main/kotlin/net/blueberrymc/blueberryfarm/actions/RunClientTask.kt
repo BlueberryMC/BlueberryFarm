@@ -1,6 +1,6 @@
-package net.blueberrymc.blueberryFarm.actions
+package net.blueberrymc.blueberryfarm.actions
 
-import net.blueberrymc.blueberryFarm.tasks.RunClient
+import net.blueberrymc.blueberryfarm.tasks.RunClient
 import org.gradle.api.Action
 
 class RunClientTask : Action<RunClient> {

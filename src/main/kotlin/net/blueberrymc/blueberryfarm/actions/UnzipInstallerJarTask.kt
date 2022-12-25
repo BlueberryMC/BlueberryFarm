@@ -1,6 +1,6 @@
-package net.blueberrymc.blueberryFarm.actions
+package net.blueberrymc.blueberryfarm.actions
 
-import net.blueberrymc.blueberryFarm.getBlueberryConfig
+import net.blueberrymc.blueberryfarm.getBlueberryConfig
 import org.gradle.api.Action
 import org.gradle.api.Task
 import java.io.File
