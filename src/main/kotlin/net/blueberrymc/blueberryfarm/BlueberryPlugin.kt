@@ -57,13 +57,12 @@ private fun DependencyHandler.unwrap(): DependencyHandler {
     return this
 }
 
-fun DependencyHandler.blueberry(dependencies: Boolean = true, loadAPI: Boolean = true, loadBlueberryFromMaven: Boolean = false) {
+fun DependencyHandler.blueberry(dependencies: Boolean = true, loadAPI: Boolean = true, loadBlueberryFromMaven: Boolean = false, loadForgeAPI: Boolean = true) {
     val lwjglVersion = "3.3.1"
     val project = BlueberryPlugin.dependencyHandler2ProjectMap[this.unwrap()]
         ?: throw IllegalArgumentException("BlueberryPlugin not initialized for this context")
     val config = project.getBlueberryConfig()
     if (dependencies) {
-        add("compileOnly", "net.blueberrymc:minecraftforge-api:${config.apiVersion.get()}")
         add("compileOnly", "net.sf.jopt-simple:jopt-simple:5.0.4")
         add("compileOnly", "net.minecrell:terminalconsoleappender:1.2.0")
         add("compileOnly", "org.jline:jline-terminal-jansi:3.12.1")
@@ -119,6 +118,9 @@ fun DependencyHandler.blueberry(dependencies: Boolean = true, loadAPI: Boolean =
         }
     } else {
         add("compileOnly", project.files("temp/patched-${config.minecraftVersion.get()}-${config.apiVersion.get()}.jar"))
+    }
+    if (loadForgeAPI) {
+        add("compileOnly", "net.blueberrymc:minecraftforge-api:${config.apiVersion.get()}")
     }
     if (loadAPI) {
         add("compileOnly", "net.blueberrymc:blueberry-api:${config.apiVersion.get()}")?.apply {
