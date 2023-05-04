@@ -57,60 +57,17 @@ private fun DependencyHandler.unwrap(): DependencyHandler {
     return this
 }
 
-fun DependencyHandler.blueberry(dependencies: Boolean = true, loadAPI: Boolean = true, loadBlueberryFromMaven: Boolean = false, loadForgeAPI: Boolean = false) {
-    val lwjglVersion = "3.3.1"
+fun DependencyHandler.blueberry(dependencies: Boolean = true, loadAPI: Boolean = true, loadBlueberryFromMaven: Boolean = false, loadForgeAPI: Boolean = false, loadKotlin: Boolean = false) {
     val project = BlueberryPlugin.dependencyHandler2ProjectMap[this.unwrap()]
         ?: throw IllegalArgumentException("BlueberryPlugin not initialized for this context")
     val config = project.getBlueberryConfig()
     if (dependencies) {
-        add("compileOnly", "net.sf.jopt-simple:jopt-simple:5.0.4")
-        add("compileOnly", "net.minecrell:terminalconsoleappender:1.2.0")
-        add("compileOnly", "org.jline:jline-terminal-jansi:3.12.1")
-        add("compileOnly", "org.lwjgl:lwjgl:$lwjglVersion")
-        add("compileOnly", "org.lwjgl:lwjgl:$lwjglVersion:natives-linux")
-        add("compileOnly", "org.lwjgl:lwjgl:$lwjglVersion:natives-macos")
-        add("compileOnly", "org.lwjgl:lwjgl:$lwjglVersion:natives-windows")
-        add("compileOnly", "org.lwjgl:lwjgl-stb:$lwjglVersion")
-        add("compileOnly", "org.lwjgl:lwjgl-stb:$lwjglVersion:natives-linux")
-        add("compileOnly", "org.lwjgl:lwjgl-stb:$lwjglVersion:natives-macos")
-        add("compileOnly", "org.lwjgl:lwjgl-stb:$lwjglVersion:natives-windows")
-        add("compileOnly", "org.lwjgl:lwjgl-glfw:$lwjglVersion")
-        add("compileOnly", "org.lwjgl:lwjgl-glfw:$lwjglVersion:natives-linux")
-        add("compileOnly", "org.lwjgl:lwjgl-glfw:$lwjglVersion:natives-macos")
-        add("compileOnly", "org.lwjgl:lwjgl-glfw:$lwjglVersion:natives-windows")
-        add("compileOnly", "org.lwjgl:lwjgl-opengl:$lwjglVersion")
-        add("compileOnly", "org.lwjgl:lwjgl-opengl:$lwjglVersion:natives-linux")
-        add("compileOnly", "org.lwjgl:lwjgl-opengl:$lwjglVersion:natives-macos")
-        add("compileOnly", "org.lwjgl:lwjgl-opengl:$lwjglVersion:natives-windows")
-        add("compileOnly", "org.lwjgl:lwjgl-openal:$lwjglVersion")
-        add("compileOnly", "org.lwjgl:lwjgl-openal:$lwjglVersion:natives-linux")
-        add("compileOnly", "org.lwjgl:lwjgl-openal:$lwjglVersion:natives-macos")
-        add("compileOnly", "org.lwjgl:lwjgl-openal:$lwjglVersion:natives-windows")
-        add("compileOnly", "org.lwjgl:lwjgl-tinyfd:$lwjglVersion")
-        add("compileOnly", "org.lwjgl:lwjgl-tinyfd:$lwjglVersion:natives-linux")
-        add("compileOnly", "org.lwjgl:lwjgl-tinyfd:$lwjglVersion:natives-macos")
-        add("compileOnly", "org.lwjgl:lwjgl-tinyfd:$lwjglVersion:natives-windows")
-        add("compileOnly", "org.lwjgl:lwjgl-jemalloc:$lwjglVersion")
-        add("compileOnly", "org.lwjgl:lwjgl-jemalloc:$lwjglVersion:natives-linux")
-        add("compileOnly", "org.lwjgl:lwjgl-jemalloc:$lwjglVersion:natives-macos")
-        add("compileOnly", "org.lwjgl:lwjgl-jemalloc:$lwjglVersion:natives-windows")
-        add("compileOnly", "com.github.oshi:oshi-core:6.2.2")
-        add("compileOnly", "com.mojang:blocklist:1.0.6")
-        add("compileOnly", "com.mojang:text2speech:1.11.3")
-        add("compileOnly", "com.mojang:text2speech:1.11.3:natives-linux")
-        add("compileOnly", "com.mojang:text2speech:1.11.3:natives-windows")
-        add("compileOnly", "net.java.jutils:jutils:1.0.0")
-        add("compileOnly", "net.java.dev.jna:jna:5.9.0")
-        add("compileOnly", "net.java.dev.jna:jna-platform:5.9.0")
-        add("compileOnly", "com.ibm.icu:icu4j:71.1")
-        add("compileOnly", "org.apache.commons:commons-lang3:3.12.0")
-        add("compileOnly", "commons-io:commons-io:2.11.0")
-        add("compileOnly", "commons-logging:commons-logging:1.2")
-        add("compileOnly", "org.apache.logging.log4j:log4j-api:2.19.0")
-        add("compileOnly", "org.apache.logging.log4j:log4j-core:2.19.0")
-        add("compileOnly", "org.apache.logging.log4j:log4j-slf4j2-impl:2.19.0")
-        add("compileOnly", "org.slf4j:slf4j-api:2.0.1")
-        add("compileOnly", "com.mojang:logging:1.1.1")
+        val libs =
+            LIBRARIES[config.minecraftVersion.get()] ?: error("${config.minecraftVersion.get()} is not supported")
+        libs.forEach {
+            if (!loadKotlin && it.startsWith("org.jetbrains.kotlin:")) return@forEach
+            add("compileOnly", it)
+        }
     }
     if (loadBlueberryFromMaven) {
         add("compileOnly", "net.blueberrymc:blueberry:${config.minecraftVersion.get()}-${config.apiVersion.get()}")?.apply {

@@ -1,11 +1,11 @@
 plugins {
-    kotlin("jvm") version "1.7.21"
+    kotlin("jvm") version "1.8.21"
     `java-gradle-plugin`
     `maven-publish`
 }
 
 group = "net.blueberrymc.blueberryfarm"
-version = "2.1.0-SNAPSHOT"
+version = "2.1.0"
 
 java {
     toolchain {
@@ -24,7 +24,7 @@ repositories {
 }
 
 dependencies {
-    implementation(kotlin("stdlib", "1.7.21"))
+    implementation(kotlin("stdlib"))
     implementation("com.google.code.gson:gson:2.10")
     implementation("io.sigpipe:jbsdiff:1.0")
 }
