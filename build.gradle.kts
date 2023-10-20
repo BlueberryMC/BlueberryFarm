@@ -1,11 +1,11 @@
 plugins {
-    kotlin("jvm") version "1.8.21"
+    kotlin("jvm") version "1.9.10"
     `java-gradle-plugin`
     `maven-publish`
 }
 
 group = "net.blueberrymc.blueberryfarm"
-version = "2.2.0"
+version = "2.3.0"
 
 java {
     toolchain {
