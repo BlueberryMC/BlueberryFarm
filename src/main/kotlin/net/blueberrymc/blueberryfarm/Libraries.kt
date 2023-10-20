@@ -69,7 +69,7 @@ val LIBRARIES = mapOf(
         "org.lwjgl:lwjgl-jemalloc:3.3.1:natives-macos",
         "org.lwjgl:lwjgl-jemalloc:3.3.1:natives-windows",
         "com.mojang:text2speech:1.17.9",
-    )
+    ),
     "1.20.1" to listOf(
         "com.google.guava:guava:31.1-jre",
         "com.google.code.gson:gson:2.10",
